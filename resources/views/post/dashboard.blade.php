@@ -18,7 +18,7 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3>Create a New Post</h3>
-                    <a href="{{ route('post.index') }}" class="btn btn-success">View All Posts</a>
+                    <a href="{{ route('posts.index') }}" class="btn btn-success">View All Posts</a>
                 </div>
 
                 <!-- Create Post Form -->
@@ -35,18 +35,6 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Create Post</button>
                     </form>
-                </div>
-
-                <!-- Display Existing Posts -->
-                <div class="mt-5">
-                    <h3>All Posts</h3>
-                    <ul class="list-group">
-                        @foreach ($posts as $post)
-                            <li class="list-group-item">
-                                <a href="{{ route('post.show', $post->id) }}">{{ $post->title }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
                 </div>
 
             </div>
