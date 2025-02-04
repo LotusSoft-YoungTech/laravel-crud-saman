@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\like;
+use App\Models\comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -45,9 +47,38 @@ class PostController extends Controller
         }
     }
 
-    public function show($id)
+    public function like($id)
     {
         $post = Post::findOrFail($id);
-        return view('posts.show', compact('post'));
+        if (!$post->likes()->where('user_id', Auth::id())->exists()) {
+            Like::create([
+                'user_id' => Auth::id(),
+                'post_id' => $id
+            ]);
+        }
+        return back();
     }
+
+    public function comment(Request $request, $id)
+    {
+        $request->validate([
+            'comment' => 'required|string|max:255'
+        ]);
+
+        Comment::create([
+            'user_id' => Auth::id(),
+            'post_id' => $id,
+            'comment' => $request->comment
+        ]);
+
+        return back();
+    }
+    public function show($id)
+{
+    // Find the post by ID
+    $post = Post::with(['user', 'likes', 'comments.user'])->findOrFail($id);
+
+    return view('show', compact('post'));
+}
+
 }
