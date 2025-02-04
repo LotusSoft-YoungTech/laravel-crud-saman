@@ -25,6 +25,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::post('/posts', [PostController::class, 'store'])->name('post.store');
     Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
+    Route::post('/posts/{id}/like', [PostController::class, 'like'])->name('posts.like');
+    Route::post('/posts/{id}/comment', [PostController::class, 'comment'])->name('posts.comment');
 });
 
 

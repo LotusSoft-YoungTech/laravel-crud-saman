@@ -18,7 +18,7 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3>Create a New Post</h3>
-                    <a href="{{ route('index') }}" class="btn btn-success">View All Posts</a>
+                    <a href="{{ route('.index') }}" class="btn btn-success">View All Posts</a>
                 </div>
 
            
