@@ -18,8 +18,10 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3>Create a New Post</h3>
-                    <a href="{{ route('posts.index') }}" class="btn btn-success">View All Posts</a>
+                    
+                    <a href="{{ route('posts.view') }}" class="btn btn-success">View All Posts</a>
                 </div>
+                
 
                 <!-- Create Post Form -->
                 <div>
@@ -35,6 +37,10 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Create Post</button>
                     </form>
+                </div>
+                
+                <div class="d-flex justify-content-between align-items-center mb-4" style="padding: 5px; ">   
+             <a href="{{ route('manage') }}" class="btn btn-primary">Manage your posts</a>
                 </div>
 
             </div>

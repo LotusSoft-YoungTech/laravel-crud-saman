@@ -19,7 +19,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::latest()->get();  
-        return view('index', compact('posts')); 
+        return view('post.view', compact('posts')); 
     }
 
     public function create()
@@ -78,7 +78,35 @@ class PostController extends Controller
     // Find the post by ID
     $post = Post::with(['user', 'likes', 'comments.user'])->findOrFail($id);
 
-    return view('show', compact('post'));
+    return view('post.show', compact('post'));
+}
+public function manage(){
+    $posts = Post::where('user_id', Auth::id())->get();
+    return view('post.manage', compact('posts'));
+} 
+public function edit($id)
+{
+    $post = Post::findOrFail($id);
+    return view('post.edit', compact('post'));
+
+
+}
+
+public function update(Request $request, $id)
+{
+    $post = Post::findOrFail($id);
+    $post->update($request->all());
+
+    return redirect()->route('manage')->with('success', 'Post updated successfully!');
+}
+public function destroy(Post $post)
+{
+    if ($post->user_id !== Auth::id()) {
+        abort(403, 'Unauthorized');
+    }
+
+    $post->delete();
+    return redirect()->route('manage')->with('success', 'Post deleted successfully.');
 }
 
 }
