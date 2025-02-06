@@ -23,7 +23,7 @@
                 </div>
                 
 
-                <!-- Create Post Form -->
+             
                 <div>
                     <form method="POST" action="{{ route('post.store') }}">
                         @csrf

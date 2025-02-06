@@ -18,7 +18,7 @@ class PostController extends Controller
     
     public function index()
     {
-        $posts = Post::latest()->get();  
+        $posts = Post::where('is_public', 1)->latest()->get(); 
         return view('post.view', compact('posts')); 
     }
 

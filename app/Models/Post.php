@@ -11,6 +11,7 @@ class Post extends Model
     'user_id',
     'title',
     'content',
+    'is_public'
     ];
 //post is by user for user os post belong to user
     public function user(){
