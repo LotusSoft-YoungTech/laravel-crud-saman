@@ -32,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/posts/{post}/destroy', [PostController::class, 'destroy'])->name('posts.destroy');
     Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
     Route::put('/posts/{id}', [PostController::class, 'update'])->name('posts.update');
+    Route::post('/notifications/read', [PostController::class, 'markAsRead'])->name('notifications.read');
 
     
     

@@ -6,14 +6,22 @@ use App\Models\comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\PostInteractionNotification;
+use Mckenziearts\Notify\Facades\LaravelNotify;
+
+
+
 
 class PostController extends Controller
 {
     
     public function dashboard()
     {
+        $user = Auth::user();
         $posts = Post::all();
-        return view('post.dashboard', compact('posts'));
+        $notifications = $user->unreadNotifications; 
+    
+        return view('post.dashboard', compact('posts', 'notifications'));
     }
     
     public function index()
@@ -50,27 +58,49 @@ class PostController extends Controller
     public function like($id)
     {
         $post = Post::findOrFail($id);
-        if (!$post->likes()->where('user_id', Auth::id())->exists()) {
+        $user = Auth::user();
+    
+        if (!$post->likes()->where('user_id', $user->id)->exists()) {
             Like::create([
-                'user_id' => Auth::id(),
+                'user_id' => $user->id,
                 'post_id' => $id
             ]);
+    
+            // Notify the post owner
+            if ($post->user_id !== $user->id) { 
+                $post->user->notify(new PostInteractionNotification($user, $post, 'liked'));
+            }
+    
+            
+            LaravelNotify::success("You liked {$post->title}!", "Success");
+
         }
+    
         return back();
     }
-
     public function comment(Request $request, $id)
     {
         $request->validate([
             'comment' => 'required|string|max:255'
         ]);
-
-        Comment::create([
-            'user_id' => Auth::id(),
+    
+        $post = Post::findOrFail($id);
+        $user = Auth::user();
+    
+        $comment = Comment::create([
+            'user_id' => $user->id,
             'post_id' => $id,
             'comment' => $request->comment
         ]);
-
+    
+        // Notify the post owner
+        if ($post->user_id !== $user->id) {
+            $post->user->notify(new PostInteractionNotification($user, $post, 'commented'));
+        }
+    
+        // Show notification to the user who commented
+        Notify::success("Comment added to {$post->title}!", "Success");
+    
         return back();
     }
     public function show($id)
