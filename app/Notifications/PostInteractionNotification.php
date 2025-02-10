@@ -31,7 +31,8 @@ class PostInteractionNotification extends Notification
     {
         return [
             'message' => "{$this->user->name} has {$this->action} your post.",
-            'post_id' => $this->post->id
+            'post_id' => $this->post->id ?? null,
+            'action' => $this->action
         ];
     }
 }
