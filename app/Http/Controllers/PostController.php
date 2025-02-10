@@ -98,9 +98,6 @@ class PostController extends Controller
             $post->user->notify(new PostInteractionNotification($user, $post, 'commented'));
         }
     
-        // Show notification to the user who commented
-        Notify::success("Comment added to {$post->title}!", "Success");
-    
         return back();
     }
     public function show($id)
