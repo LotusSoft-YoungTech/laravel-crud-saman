@@ -18,7 +18,7 @@ class PostController extends Controller
     public function dashboard()
     {
         $user = Auth::user();
-        $posts = Post::all();
+        $posts = Post::with('user')->latest()->paginate(10);
         $notifications = $user->unreadNotifications; 
     
         return view('post.dashboard', compact('posts', 'notifications'));
@@ -110,22 +110,38 @@ class PostController extends Controller
 public function manage(){
     $posts = Post::where('user_id', Auth::id())->get();
     return view('post.manage', compact('posts'));
-} 
-public function edit($id)
+} public function edit($id)
 {
     $post = Post::findOrFail($id);
+
+    if ($post->user_id !== Auth::id()) {
+        abort(403, 'Unauthorized');
+    }
+
     return view('post.edit', compact('post'));
-
-
 }
 
 public function update(Request $request, $id)
 {
     $post = Post::findOrFail($id);
-    $post->update($request->all());
+
+    if ($post->user_id !== Auth::id()) {
+        abort(403, 'Unauthorized');
+    }
+
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'required|string'
+    ]);
+
+    $post->update([
+        'title' => $request->title,
+        'content' => $request->content
+    ]);
 
     return redirect()->route('manage')->with('success', 'Post updated successfully!');
 }
+
 public function destroy(Post $post)
 {
     if ($post->user_id !== Auth::id()) {
@@ -135,5 +151,4 @@ public function destroy(Post $post)
     $post->delete();
     return redirect()->route('manage')->with('success', 'Post deleted successfully.');
 }
-
 }

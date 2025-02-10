@@ -25,7 +25,7 @@
                         Notifications
                     </div>
                     <ul class="max-h-64 overflow-y-auto divide-y divide-gray-200">
-                        @forelse($notifications as $notification)
+                        @forelse($notifications->take(5) as $notification)
                             <li class="p-3 hover:bg-gray-100 transition duration-200 flex items-start gap-3">
                                 <div>
                                     <p class="text-sm text-gray-800">{{ $notification->data['message'] }}</p>
