@@ -22,5 +22,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ProductSeeder::class,
         ]);
+        $this->call([
+            adminseeder::class,
+        ]);
+        $this->call([
+            postseeder::class,
+        ]);
     }
 }
