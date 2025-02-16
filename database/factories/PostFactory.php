@@ -18,10 +18,10 @@ class PostFactory extends Factory  // Changed to PostFactory (capitalized "P")
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),  // Generate a fake user
-            'title' => $this->faker->title(),  // Fake title
-            'content' => $this->faker->paragraph(),  // Fake content
-            'is_public' => 1  // Set is_public to 1 (true)
+            'user_id' => User::factory(), 
+            'title' => $this->faker->title(),  
+            'content' => $this->faker->paragraph(),  
+            'is_public' => 1  
         ];
     }
 }
