@@ -66,16 +66,18 @@
                 </div>
 
                 <!-- Add Comment Form -->
-                <form method="POST" action="{{ route('posts.comment', $post->id) }}" class="mt-6">
-                    @csrf
-                    <div class="mb-3">
-                        <textarea name="comment" class="form-control w-full p-3 border rounded-lg" placeholder="Write a comment..." required></textarea>
-                    </div>
-                    <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">
-                        Post Comment
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
+                @auth
+   <form method="POST" action="{{ route('posts.comment', $post->id) }}" class="mt-6">
+       @csrf
+       <div class="mb-3">
+           <textarea name="comment" class="form-control w-full p-3 border rounded-lg" placeholder="Write a comment..." required></textarea>
+       </div>
+       <button type="submit" class="btn btn-success">
+           Post Comment
+       </button>
+   </form>
+@else
+   <p class="text-red-600">You need to be logged in to post a comment.</p>
+@endauth
+
 </x-app-layout>
