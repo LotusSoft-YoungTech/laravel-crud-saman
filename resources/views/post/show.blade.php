@@ -13,7 +13,7 @@
         <div class="max-w-3xl w-full bg-white shadow-lg rounded-lg p-6">
             <!-- User Info -->
             <div class="flex items-center mb-6">
-                <img src="{{ $post->user->profile_photo_url ?? asset('default-avatar.png') }}" 
+                               <img src="{{ $post->user->profile_pic ? asset('storage/' . $post->user->profile_pic) : asset('storage/default-avatar.png') }}"
                      class="rounded-full border p-1 mr-4" width="60" height="60" alt="User">
                 <div>
                     <h5 class="font-semibold text-blue-600">{{ $post->user->name }}</h5>
@@ -53,7 +53,7 @@
                     @foreach ($post->comments as $comment)
                         <div class="border rounded-lg p-4 bg-gray-50">
                             <div class="flex items-center mb-2">
-                                <img src="{{ $comment->user->profile_photo_url ?? asset('default-avatar.png') }}" 
+                                 <img src="{{ $comment->user->profile_pic ? asset('storage/' . $comment->user->profile_pic) : asset('storage/default-avatar.png') }}"
                                      class="rounded-full border p-1 mr-3" width="40" height="40" alt="User">
                                 <div>
                                     <h6 class="font-semibold text-gray-700">{{ $comment->user->name }}</h6>
